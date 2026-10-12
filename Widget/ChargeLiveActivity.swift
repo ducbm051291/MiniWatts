@@ -218,7 +218,7 @@ struct ActivityFootnote: View {
     var body: some View {
         HStack(spacing: 6) {
             if context.isStale {
-                Label("Paused — open MiniWatts to resume", systemImage: "pause.circle")
+                Label("Paused — open Pin Thủ to resume", systemImage: "pause.circle")
                     .foregroundStyle(palette.loss)
             } else if showsStatus {
                 Text(context.state.reading.statusTitle)
@@ -229,7 +229,7 @@ struct ActivityFootnote: View {
             if !context.isStale {
                 Text("Since \(Text(context.attributes.startedAt, style: .time))")
             }
-            // The one way to close the activity while MiniWatts is suspended or killed:
+            // The one way to close the activity while Pin Thủ is suspended or killed:
             // iOS wakes the app to perform the intent.
             Button(intent: EndChargeActivityIntent()) {
                 Label("End", systemImage: "xmark")

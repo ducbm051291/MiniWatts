@@ -1,8 +1,8 @@
-# MiniWatts
+# Pin Thủ
 
-**English** · [简体中文](README.zh-Hans.md)
+**English** · [简体中文](README.zh-Hans.md) · [Tiếng Việt](README.vi.md)
 
-[![Build](https://github.com/ResistanceTo/MiniWatts/actions/workflows/build.yml/badge.svg)](https://github.com/ResistanceTo/MiniWatts/actions/workflows/build.yml)
+Fork of [MiniWatts](https://github.com/ResistanceTo/MiniWatts) — display name **Pin Thủ**, with Vietnamese localization.
 
 An iPhone battery and charging monitor built on Apple's private APIs. It reads the
 phone's own power-management sensors — the ones iOS uses to run the charge — and shows

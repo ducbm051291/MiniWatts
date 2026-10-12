@@ -1,8 +1,8 @@
-# MiniWatts
+# Pin Thủ
 
-[English](README.md) · **简体中文**
+[English](README.md) · **简体中文** · [Tiếng Việt](README.vi.md)
 
-[![Build](https://github.com/ResistanceTo/MiniWatts/actions/workflows/build.yml/badge.svg)](https://github.com/ResistanceTo/MiniWatts/actions/workflows/build.yml)
+本仓库是 [MiniWatts](https://github.com/ResistanceTo/MiniWatts) 的 fork，显示名为 **Pin Thủ**，并带有越南语本地化。
 
 一个用 Apple 私有 API 做的 iPhone 电池与充电信息 app。它读取手机自己的电源管理传感器——也就是 iOS 用来控制充电的那一套——显示充电器正在输出多少、其中有多少真正进到电芯、剩下的以多少热量散掉，以及这期间手机里每一个温度传感器的读数。
 

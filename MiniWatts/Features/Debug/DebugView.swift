@@ -120,7 +120,7 @@ struct DebugView: View {
         }
     }
 
-    /// The accessory-manager scan. This is the panel that decides whether MiniWatts
+    /// The accessory-manager scan. This is the panel that decides whether Pin Thủ
     /// can ever say anything about the charger's own identity or the cable, so the
     /// rows that came back empty are shown as well as the ones that answered: a key
     /// that is absent everywhere is the finding.
@@ -252,7 +252,7 @@ struct DebugView: View {
     }
 
     private func fullDump() -> String {
-        var lines: [String] = ["MiniWatts raw dump — \(Formatting.timestamp(.now))"]
+        var lines: [String] = ["Pin Thủ raw dump — \(Formatting.timestamp(.now))"]
         lines.append(contentsOf: monitor.diagnostics)
         lines.append("\n# Sensors")
         lines.append(contentsOf: monitor.snapshot.sensors.sorted { $0.name < $1.name }.map { "\($0.name) = \($0.formatted)" })

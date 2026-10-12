@@ -118,7 +118,7 @@ nonisolated final class SessionStore: @unchecked Sendable {
     static let sampleInterval: TimeInterval = 5
 
     private let url: URL
-    private let queue = DispatchQueue(label: "org.zhaohe.MiniWatts.sessions", qos: .utility)
+    private let queue = DispatchQueue(label: "co.ducbm.MiniWatts.sessions", qos: .utility)
     /// Guarded by `queue`. Holds at most the newest pending write.
     private var pending: [ChargeSession]?
     /// Set on the queue when a history file exists but cannot be decoded. The

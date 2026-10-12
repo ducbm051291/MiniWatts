@@ -55,7 +55,7 @@ struct BatteryProvider: TimelineProvider {
 // MARK: - Widget
 
 struct BatteryWidget: Widget {
-    let kind = "org.zhaohe.MiniWatts.battery"
+    let kind = "co.ducbm.MiniWatts.battery"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: BatteryProvider()) { entry in
@@ -298,7 +298,7 @@ struct NoReadingView: View {
                 .foregroundStyle(palette.muted)
             Text("No reading")
                 .font(.system(size: 14, weight: .semibold))
-            Text("Open MiniWatts once, then check back.")
+            Text("Open Pin Thủ once, then check back.")
                 .font(.system(size: 11))
                 .foregroundStyle(palette.muted)
         }

@@ -216,8 +216,33 @@ struct SettingsView: View {
     }
 
     private func capacityPanel(capacity: Binding<Double>) -> some View {
-        Panel("Battery energy", systemImage: "battery.100.bolt") {
+        let selected = BatteryPackPreset.matching(wattHours: capacity.wrappedValue)
+        return Panel("Battery energy", systemImage: "battery.100.bolt") {
             VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Text("Pack preset")
+                        .font(.subheadline)
+                    Spacer()
+                    Picker("Pack preset", selection: Binding(
+                        get: { selected },
+                        set: { preset in
+                            if let wh = preset.wattHours {
+                                capacity.wrappedValue = wh
+                            }
+                        }
+                    )) {
+                        ForEach(BatteryPackPreset.selectable) { preset in
+                            if let wh = preset.wattHours {
+                                Text(verbatim: "\(String(localized: preset.title)) · \(String(format: "%.1f", wh)) Wh")
+                                    .tag(preset)
+                            } else {
+                                Text(preset.title).tag(preset)
+                            }
+                        }
+                    }
+                    .labelsHidden()
+                    .pickerStyle(.menu)
+                }
                 HStack {
                     Text(String(format: "%.1f Wh", capacity.wrappedValue))
                         .mwReadout(size: 26)
@@ -226,7 +251,7 @@ struct SettingsView: View {
                     Stepper("", value: capacity, in: 5...40, step: 0.1)
                         .labelsHidden()
                 }
-                Text("Used only for the %-rate estimate, which is the sole way to see discharge power: no discharge-current sensor is exposed to a sandboxed app. Look up your model's rating — an iPhone 17 Pro Max is about 19.7 Wh — and enter it here.")
+                Text("Used only for the %-rate estimate, which is the sole way to see discharge power: no discharge-current sensor is exposed to a sandboxed app. Pick a preset for your model, or enter Wh yourself — an iPhone 17 Pro Max is about 19.7 Wh. Preset figures are estimates.")
                     .font(.caption)
                     .foregroundStyle(Color.mwMuted)
                     .fixedSize(horizontal: false, vertical: true)
@@ -239,16 +264,24 @@ struct SettingsView: View {
     }
 
     private var devicePanel: some View {
-        Panel("Device", systemImage: "iphone") {
-            VStack(spacing: 0) {
+        let unavailable = String(localized: "unavailable")
+        return Panel("Device", systemImage: "iphone") {
+            VStack(alignment: .leading, spacing: 0) {
                 DetailRow(label: "Model identifier", value: monitor.deviceModelIdentifier)
                 DetailRow(label: "System", value: "iOS \(UIDevice.current.systemVersion)")
                 DetailRow(label: "HID sensors",
                           value: monitor.sensorsAvailable
-                              ? String(localized: "available") : String(localized: "unavailable"))
-                DetailRow(label: "Cycle count", value: monitor.snapshot.cycleCount.map(String.init))
+                              ? String(localized: "available") : unavailable)
+                DetailRow(label: "Cycle count",
+                          value: monitor.snapshot.cycleCount.map(String.init) ?? unavailable)
                 DetailRow(label: "Battery health",
-                          value: monitor.snapshot.healthPercent.map { String(format: "%.0f%%", $0) })
+                          value: monitor.snapshot.healthPercent.map { String(format: "%.0f%%", $0) }
+                              ?? unavailable)
+                Text("On a sandboxed iPhone, cycle count and battery health are almost always filtered out of the registry. A missing reading here is expected — not a bug.")
+                    .font(.caption)
+                    .foregroundStyle(Color.mwMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 10)
             }
         }
     }

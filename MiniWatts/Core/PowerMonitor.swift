@@ -144,8 +144,19 @@ final class PowerMonitor {
 
     init() {
         let defaults = UserDefaults.standard
-        let stored = defaults.double(forKey: Self.wattHoursKey)
-        configuredBatteryWattHours = stored > 0 ? stored : 15.0
+        // First launch: pick a model preset when the machine id is known, otherwise 15 Wh.
+        // After the user (or a preset) writes the key, that value wins — including an
+        // intentional 15.0 that happens to match the old default.
+        let initialWattHours: Double
+        if defaults.object(forKey: Self.wattHoursKey) == nil {
+            initialWattHours =
+                BatteryPackPreset.matching(machineIdentifier: Self.machineIdentifier)?.wattHours
+                ?? 15.0
+        } else {
+            let stored = defaults.double(forKey: Self.wattHoursKey)
+            initialWattHours = stored > 0 ? stored : 15.0
+        }
+        configuredBatteryWattHours = initialWattHours
         // Defaults to on: recording a whole charge is the point of the History tab,
         // and it cannot happen if the screen locks after thirty seconds.
         keepScreenAwakeWhileCharging = defaults.object(forKey: Self.keepAwakeKey) as? Bool ?? true
